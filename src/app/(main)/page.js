@@ -1,8 +1,11 @@
+import Hero from "../ui/hero/page";
+import ProductPage from "./products/page";
 
 export default function Home() {
   return (
     <div>
-      hello
+      <Hero></Hero>
+      <ProductPage></ProductPage>
     </div>
   );
 }

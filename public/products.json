@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "UV Protection Sunglasses",
+    "brand": "SunShade",
+    "price": 15,
+    "rating": 4.7,
+    "stock": 10,
+    "description": "Stylish UV protection sunglasses perfect for summer outings.",
+    "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400",
+    "category": "Accessories"
+  },
+  {
+    "id": 2,
+    "name": "Cooling Beach Towel",
+    "brand": "WaveBreeze",
+    "price": 22,
+    "rating": 4.5,
+    "stock": 25,
+    "description": "Extra-large, quick-dry microfiber beach towel with vibrant summer prints. Sand-resistant and ultra-absorbent.",
+    "image": "https://images.unsplash.com/photo-1625931046289-e51edea3e176?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdGNoJTIwdG93ZWx8ZW58MHx8MHx8fDA%3D",
+    "category": "Beach Essentials"
+  },
+  {
+    "id": 3,
+    "name": "SPF 50 Sunscreen Lotion",
+    "brand": "SolarGuard",
+    "price": 12,
+    "rating": 4.8,
+    "stock": 50,
+    "description": "Water-resistant SPF 50 sunscreen lotion that provides broad-spectrum UVA/UVB protection for all skin types.",
+    "image": "https://images.unsplash.com/photo-1521334884684-d80222895322?w=400",
+    "category": "Skin Care"
+  },
+  {
+    "id": 4,
+    "name": "Inflatable Pool Float",
+    "brand": "AquaFun",
+    "price": 18,
+    "rating": 4.3,
+    "stock": 15,
+    "description": "Giant inflatable flamingo pool float perfect for lounging in the water. Durable PVC with a quick-inflate valve.",
+    "image": "https://images.unsplash.com/photo-1530870110042-98b2cb110834?w=400",
+    "category": "Pool & Water"
+  },
+  {
+    "id": 5,
+    "name": "Portable Mini Fan",
+    "brand": "CoolBreeze",
+    "price": 9,
+    "rating": 4.4,
+    "stock": 40,
+    "description": "USB rechargeable handheld mini fan with 3-speed settings. Lightweight and perfect for outdoor summer days.",
+    "image": "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400",
+    "category": "Electronics"
+  },
+  {
+    "id": 6,
+    "name": "Waterproof Sun Hat",
+    "brand": "TropicWear",
+    "price": 20,
+    "rating": 4.6,
+    "stock": 30,
+    "description": "Wide-brim waterproof sun hat with UPF 50+ protection. Foldable and packable for easy travel.",
+    "image": "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=400",
+    "category": "Accessories"
+  },
+  {
+    "id": 7,
+    "name": "Insulated Water Bottle",
+    "brand": "ChillSip",
+    "price": 25,
+    "rating": 4.9,
+    "stock": 20,
+    "description": "32oz stainless steel insulated water bottle that keeps drinks cold for 24 hours. Leak-proof and BPA-free.",
+    "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400",
+    "category": "Drinkware"
+  },
+  {
+    "id": 8,
+    "name": "Flip Flops",
+    "brand": "SandStep",
+    "price": 11,
+    "rating": 4.2,
+    "stock": 60,
+    "description": "Comfortable anti-slip flip flops with cushioned footbed. Perfect for beach, pool, or casual summer walks.",
+    "image": "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400",
+    "category": "Footwear"
+  }
+]
