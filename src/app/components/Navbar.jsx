@@ -1,10 +1,17 @@
-"use client"
+"use client";
 import { useState } from "react";
-import {Button } from "@heroui/react";
+import { Button, Spinner, Avatar } from "@heroui/react";
 import NavLink from "./NavLink";
+import { authClient } from "@/lib/auth-client";
+import { FaUser } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, isPending } = authClient.useSession();
+  const router = useRouter();
+  const user = session?.user;
+  console.log(user);
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg ">
@@ -52,10 +59,38 @@ const Navbar = () => {
               <NavLink href="/products">Products</NavLink>
             </li>
             <li>
-              <NavLink href="/user">User</NavLink>
+              <NavLink href="/user">
+                {user ? (
+                  <Avatar>
+                    <Avatar.Image
+                      alt="John Doe"
+                      src={user.image}
+                    />
+                  </Avatar>
+                ) : (
+                  <FaUser />
+                )}
+              </NavLink>
             </li>
             <li>
-              <NavLink href="/login">login</NavLink>
+              {isPending ? (
+                <span>
+                  <Spinner color="success" />
+                </span>
+              ) : user ? (
+                <Button
+                  variant="outline"
+                  onClick={async () => {
+                    (await authClient.signOut(), router.push("/"));
+                  }}
+                >
+                  Log out
+                </Button>
+              ) : (
+                <NavLink href="/login">
+                  <Button variant="outline">Log In</Button>
+                </NavLink>
+              )}
             </li>
           </ul>
         </header>
@@ -63,16 +98,15 @@ const Navbar = () => {
           <div className="border-t border-separator md:hidden">
             <ul className="flex flex-col gap-2 p-4">
               <li>
+                <NavLink href="/user">
+                  <FaUser />
+                </NavLink>
+              </li>
+              <li>
                 <NavLink href="/">Home</NavLink>
               </li>
               <li>
                 <NavLink href="/products">Products</NavLink>
-              </li>
-              <li>
-                <NavLink href="/user">User</NavLink>
-              </li>
-              <li>
-                <NavLink href="/login">login</NavLink>
               </li>
             </ul>
           </div>
@@ -80,6 +114,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
