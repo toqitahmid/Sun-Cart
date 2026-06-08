@@ -1,5 +1,4 @@
 import Image from "next/image";
-import banner from '@/assets/banner.png'
 
 const Hero = () => {
     return (
