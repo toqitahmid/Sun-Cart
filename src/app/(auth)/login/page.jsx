@@ -10,14 +10,15 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-
+import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 
 const CustomRenderLogInFunction = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (e) => {
@@ -27,23 +28,53 @@ const CustomRenderLogInFunction = () => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const { data, error } = await authClient.signIn.email({
-      email,
-      password,
-    });
-    if (error) {
-      if (error.status === 401) {
-        toast.error("No account found! Redirecting to register...");
-        setTimeout(() => {
-          router.push("/register");
-        }, 2000);
-      } else {
-        toast.error("Login failed. Please try again.");
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password,
+      });
+
+      if (error) {
+        switch (error.status) {
+          case 401:
+            toast.error("Incorrect email password.");
+            break;
+
+          case 404:
+            toast.error("No account found with this email.", {
+              action: {
+                label: "Register",
+                onclick: () => router.push("/register"),
+              },
+            });
+            break;
+
+          case 429:
+            toast.error("Too many attempts. Please wait a moment");
+            break;
+
+          case 500:
+          case 502:
+          case 503:
+            toast.error("Server error. Please try again later.");
+            break;
+
+          default:
+            // Use the server's own message if available, fallback to generic
+            toast.error(error.message ?? "Login failed. Please try again.");
+        }
+        return;
       }
-      return;
+
+      toast.success("Login successful! Welcome back");
+      router.push("/");
+    } catch (err) {
+      toast.error("Connection error. Check your internet and try again.");
+    } finally {
+      setIsLoading(false);
     }
-    toast.success("Login successful! Welcome back");
-    router.push("/");
   };
 
   return (
@@ -99,7 +130,7 @@ const CustomRenderLogInFunction = () => {
         </TextField>
 
         <div className="flex gap-2">
-          <Button type="submit">
+          <Button type="submit" isDisabled = {isLoading}>
             <Check />
             Login
           </Button>
@@ -107,6 +138,17 @@ const CustomRenderLogInFunction = () => {
             Reset
           </Button>
         </div>
+        <Button className="w-full" variant="tertiary"
+        onPress={async () => {
+            await authClient.signIn.Social({
+                provider: "google",
+                callbackURL: "/"
+            })
+        }}
+        >
+          <Icon icon="devicon:google" />
+        Login with Google
+        </Button>
         <div className=" text-center">
           If you do not have an account{" "}
           <Link className="text-blue-800" href="/register">

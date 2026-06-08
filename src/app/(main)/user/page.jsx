@@ -33,7 +33,10 @@ const ProfilePage = () => {
         {/* Avatar */}
         <div className="flex flex-col items-center gap-4 mb-8">
           <img
-            src={user.image || "/default-avatar.png"}
+            src={
+              user.image ||
+              "/https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+            }
             alt={user.name}
             className="w-28 h-28 rounded-full object-cover border-4 border-amber-400 shadow"
           />
