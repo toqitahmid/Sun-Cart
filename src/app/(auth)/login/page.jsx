@@ -46,7 +46,7 @@ const CustomRenderLogInFunction = () => {
             toast.error("No account found with this email.", {
               action: {
                 label: "Register",
-                onclick: () => router.push("/register"),
+                onClick: () => router.push("/register"),
               },
             });
             break;
@@ -81,7 +81,6 @@ const CustomRenderLogInFunction = () => {
     <div className="h-screen flex justify-center items-center bg-amber-200">
       <Form
         className="flex w-96 flex-col gap-4"
-        render={(props) => <form {...props} data-custom="foo" />}
         onSubmit={onSubmit}
       >
         <h1 className=" text-2xl font-bold text-center">Login Account</h1>
@@ -140,7 +139,7 @@ const CustomRenderLogInFunction = () => {
         </div>
         <Button className="w-full" variant="tertiary"
         onPress={async () => {
-            await authClient.signIn.Social({
+            await authClient.signIn.social({
                 provider: "google",
                 callbackURL: "/"
             })

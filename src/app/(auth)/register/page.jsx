@@ -14,8 +14,11 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
+import { useState } from "react";
 
 const RegisterPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (e) => {
@@ -27,37 +30,65 @@ const RegisterPage = () => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const { data, error } = await authClient.signUp.email({
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await authClient.signUp.email({
         name,
         image,
         email,
         password,
-    })
+      });
 
-    if(error){
-        if(error.status === 409){
-            toast.error("Email already exists! Redirecting to login...");
-            setTimeout(() => {
-                router.push("/login");
-            }, 2000);
-        }
-        else{
-            toast.error("Registration failed. Please try again!")
+      if (error) {
+        switch (error.status) {
+          case 409:
+            toast.error((t) => (
+              <span>
+                Email already exists.{" "}
+                <button
+                  onClick={() => {
+                    router.push("/login");
+                    toast.dismiss(t.id);
+                  }}
+                  style={{ textDecoration: "underline", fontWeight: 600 }}
+                >
+                  Login instead
+                </button>
+              </span>
+            ));
+            break;
+
+          case 429:
+            toast.error("Too many attempts. Please wait a moment.");
+            break;
+
+          case 500:
+          case 502:
+          case 503:
+            toast.error("Server error. Please try again later.");
+            break;
+
+          default:
+            toast.error(
+              error.message ?? "Registration failed. Please try again.",
+            );
         }
         return;
-    }
+      }
 
-    toast.success("Account created successfully!");
-    router.push("/");
+      toast.success("Account created successfully!");
+      router.push("/");
+    } catch (err) {
+      toast.error("Connection error. Check your internet and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="h-screen flex justify-center items-center bg-amber-200">
-      <Form
-        className="flex w-96 flex-col gap-4"
-        render={(props) => <form {...props} data-custom="foo" />}
-        onSubmit={onSubmit}
-      >
+      <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
         <h1 className="text-2xl font-bold text-center">Create Account</h1>
 
         <TextField isRequired name="name" type="text">
@@ -111,14 +142,29 @@ const RegisterPage = () => {
         </TextField>
 
         <div className="flex gap-2">
-          <Button type="submit">
+          <Button type="submit" isDisabled={isLoading}>
             <Check />
-            Register
+            {isLoading ? "Creating..." : "Register"}
           </Button>
-          <Button type="reset" variant="secondary">
+          <Button type="reset" variant="secondary" isDisabled={isLoading}>
             Reset
           </Button>
         </div>
+
+        <Button
+          className="w-full"
+          variant="tertiary"
+          isDisabled={isLoading}
+          onPress={async () => {
+            await authClient.signIn.social({
+              provider: "google",
+              callbackURL: "/",
+            });
+          }}
+        >
+          <Icon icon="devicon:google" />
+          Login with Google
+        </Button>
 
         <div className="mt-4 text-center">
           Already have an account?{" "}
